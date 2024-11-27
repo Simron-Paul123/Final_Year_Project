@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+   
+    <title>Job portal | SkillMingle</title>
+
+    <style>
+      .explore__card:nth-child(1) span,
+      .category-style-1 {
+          color: #f04a0c;
+          background-color: #f6efef;
+      }
+      
+      .explore__card:nth-child(2) span,
+      .category-style-2 {
+          color: #6a38c2;
+          background-color: #e9ddff;
+      }
+      
+      .explore__card:nth-child(3) span,
+      .category-style-3 {
+          color: #ff0101;
+          background-color: #fff2f2;
+      }
+      
+      .explore__card:nth-child(4) span,
+      .category-style-4 {
+          color: #fbbc09;
+          background-color: #fff8e3;
+      }
+      
+      .explore__card:nth-child(5) span,
+      .category-style-5 {
+          color: #4680e7;
+          background-color: #e7edf8;
+      }
+      
+      .explore__card:nth-child(6) span,
+      .category-style-6 {
+          color: #34a753;
+          background-color: #f1fef5;
+      }
+      
+      .explore__card:nth-child(7) span,
+      .category-style-7 {
+          color: #443ee0;
+          background-color: #f6f5ff;
+      }
+      
+      .explore__card:nth-child(8) span,
+      .category-style-8 {
+          color: #3ac2ba;
+          background-color: #f0fffe;
+      }
+      </style>
+
+  </head>
+  <body>
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo">Skill<span>Mingle</span></a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#categories">Categories</a></li>
+        <li><a href="#service">Services</a></li>
+        <li><a href="#job">Jobs</a></li>
+        <li><button class="btn">Register</button></li>
+      </ul>
+    </nav>
+    <header class="section__container header__container" id="home">
+      {%load static%}
+     
+      <img  src="{%static '/assets/google.png'%}" alt="header" />
+      <img  src="{%static '/assets/twitter.png'%}" alt="header" />
+      <img  src="{%static '/assets/amazon.png'%}" alt="header" />
+      <img  src="{%static '/assets/figma.png'%}" alt="header" />
+      <img  src="{%static '/assets/linkedin.png'%}" alt="header" />
+      <img  src="{%static '/assets/microsoft.png'%}" alt="header" />
+      <h2>
+        <img  src="{%static '/assets/bag.png'%}" alt="header" />
+       
+        An AI driven Talent Acquisition System
+      </h2>
+      <h1>Search, Apply &<br />Get Your <span>Dream Job</span></h1>
+      <p>
+        Your future starts here. Discover countless opportunities, take action
+        by applying to jobs that match your skills and aspirations, and
+        transform your career.
+      </p>
+      <div class="header__btns">
+        <a href="#job">
+          <button class="btn">Browse Jobs</button>
+      </a>
+        <a href="#">
+          <span><i class="ri-play-fill"></i></span>
+          How It Works?
+        </a>
+      </div>
+    </header>
+
+    <section class="steps" id="about">
+      <div class="section__container steps__container">
+        <h2 class="section__header">
+          Get Hired in 4 <span>Quick Easy Steps</span>
+        </h2>
+        <p class="section__description">
+          Follow Our Simple, Step-by-Step Guide to Quickly Land Your Dream Job
+          and Start Your New Career Journey.
+        </p>
+        <div class="steps__grid">
+          <div class="steps__card">
+            <span><i class="ri-user-fill"></i></span>
+            <h4>Create an Account</h4>
+            <p>
+              Sign up with just a few clicks to unlock exclusive access to a
+              world of job opportunities and landing your dream job. It's quick,
+              easy, and completely free.
+            </p>
+          </div>
+          <div class="steps__card">
+            <span><i class="ri-search-fill"></i></span>
+            <h4>Search Job</h4>
+            <p>
+              Dive into our job database tailored to match your skills and
+              preferences. With our advanced search filters, finding the perfect
+              job has never been easier.
+            </p>
+          </div>
+          <div class="steps__card">
+            <span><i class="ri-file-paper-fill"></i></span>
+            <h4>Upload CV/Resume</h4>
+            <p>
+              Showcase your experience by uploading your CV or resume. Let
+              employers know why you're the perfect candidate for their job
+              openings.
+            </p>
+          </div>
+          <div class="steps__card">
+            <span><i class="ri-briefcase-fill"></i></span>
+            <h4>Get Job</h4>
+            <p>
+              Take the final step towards your new career. Get ready to embark
+              on your professional journey and secure the job you've been
+              dreaming of.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section__container explore__container" id="categories">
+      <h2 class="section__header">
+        <span>Countless Career Options</span> Are Waiting For You To Explore
+      </h2>
+      <p class="section__description">
+        Discover a World of Exciting Opportunities and Endless Possibilities,
+        and Find the Perfect Career Path to Shape Your Future.
+      </p>
+      <h2 class="section__header">
+        <span>Categories</span> 
+      </h2>
+      <div class="explore__grid">
+        {% for category in categories %}
+            <div class="explore__card" data-sr-id="{{ forloop.counter }}" style="visibility: visible; opacity: 1; transition: 0.3s, opacity 1s cubic-bezier(0.5, 0, 0, 1); {% if forloop.counter > 8 %}display: none;{% endif %}">
+                <span><i class="{{ category.icon_class }}"></i></span>
+                <h4>{{ category.name }}</h4>
+                <p>{{ category.job_count  }} job openings</p>
+            </div>
+        {% empty %}
+            <li>No categories available.</li>
+        {% endfor %}
+    </div>
+    
+    {% if categories|length > 8 %}
+        <div class="explore__btn">
+            <button class="btn" id="viewAllBtn">View All Categories</button>
+        </div>
+    {% endif %}
+    
+    </section>
+
+    <section class="section__container job__container" id="job">
+      <h2 class="section__header"><span>Latest & Top</span> Job Openings</h2>
+      <p class="section__description">
+        Discover Exciting New Opportunities and High-Demand Positions Available
+        Now in Top Industries and Companies
+      </p>
+
+      <div class="job__grid">
+
+        {% for job in jobs %}
+        <div class="job__card">
+          <div class="job__card__header">
+            <img src="{{ job.company_logo.url }}" alt="{{ job.company_name }}" /> <!-- Ensure the field is defined in your Job model -->
+            <div>
+              <h5>{{ job.company_name }}</h5>
+              <h6>{{ job.location }}</h6>
+            </div>
+          </div>
+          <h4>{{ job.title }}</h4>
+          <p>{{ job.description }}</p>
+          <div class="job__card__footer">
+            <span>{{ job.positions }} Positions</span>
+            <span>{{ job.employment_type }}</span>
+            <span>${{ job.salary }}/Year</span>
+          </div>
+        </div>
+        {% endfor %}
+        
+        </div>
+    </section>
+
+    <section class="section__container offer__container" id="service">
+      <h2 class="section__header">What We <span>Offer</span></h2>
+      <p class="section__description">
+        Explore the Benefits and Services We Provide to Enhance Your Job Search
+        and Career Success
+      </p>
+      <div class="offer__grid">
+        <div class="offer__card">
+          {%load static%}
+          <img  src="{% static '/assets/offer-1.jpg'%}" alt="offer" />
+         
+          <div class="offer__details">
+            <span>01</span>
+            <div>
+              <h4>Job Recommendation</h4>
+              <p>
+                Personalized job matches tailored to your skills and preferences
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="offer__card">
+          {%load static%}
+          <img  src="{% static '/assets/offer-2.jpg'%}" alt="offer" />
+          <div class="offer__details">
+            <span>02</span>
+            <div>
+              <h4>Create & Build Portfolio</h4>
+              <p>Showcase your expertise with professional portfolio design</p>
+            </div>
+          </div>
+        </div>
+        <div class="offer__card">
+          {%load static%}
+          <img  src="{% static '/assets/offer-3.jpg'%}" alt="offer" />
+          <div class="offer__details">
+            <span>03</span>
+            <div>
+              <h4>Career Consultation</h4>
+              <p>Receive expert advice to navigate your career path</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  
+    
+
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <a href="#" class="logo">Skill<span>Mingle</span></a>
+          </div>
+          <p>
+            Our platform is designed to help you find jobs and hire talent
+          </p>
+        </div>
+        <div class="footer__col">
+          <h4>Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Jobs</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Follow Us</h4>
+          <ul class="footer__links">
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Youtube</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Contact Us</h4>
+          <ul class="footer__links">
+            <li>
+              <a href="#">
+                <span><i class="ri-phone-fill"></i></span> +91 8334814704
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span><i class="ri-map-pin-2-fill"></i></span>Kolkata , West Bengal , India
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar">
+        Copyright © SkillMingle.com. All rights reserved.
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    {%load static %} 
+    <script >
+
+      document.getElementById("viewAllBtn").addEventListener("click", function() {
+        const hiddenCards = document.querySelectorAll(".explore__card[style*='display: none']");
+        hiddenCards.forEach(function(card, index) {
+            card.style.display = "block"; 
+            card.style.visibility = "visible"; 
+            card.style.opacity = "1"; 
+            
+            // Cycle through styles from 1 to 8
+            const styleIndex = (index % 8) + 1; 
+            card.querySelector('span').classList.add(`category-style-${styleIndex}`);
+        });
+        this.style.display = "none"; 
+    });
+
+      const menuBtn = document.getElementById("menu-btn");
+const navLinks = document.getElementById("nav-links");
+const menuBtnIcon = menuBtn.querySelector("i");
+
+menuBtn.addEventListener("click", (e) => {
+  navLinks.classList.toggle("open");
+
+  const isOpen = navLinks.classList.contains("open");
+  menuBtnIcon.setAttribute("class", isOpen ? "ri-close-line" : "ri-menu-line");
+});
+
+navLinks.addEventListener("click", (e) => {
+  navLinks.classList.remove("open");
+  menuBtnIcon.setAttribute("class", "ri-menu-line");
+});
+
+const scrollRevealOption = {
+  distance: "50px",
+  origin: "bottom",
+  duration: 1000,
+};
+
+ScrollReveal().reveal(".header__container h2", {
+  ...scrollRevealOption,
+});
+ScrollReveal().reveal(".header__container h1", {
+  ...scrollRevealOption,
+  delay: 500,
+});
+ScrollReveal().reveal(".header__container p", {
+  ...scrollRevealOption,
+  delay: 1000,
+});
+ScrollReveal().reveal(".header__btns", {
+  ...scrollRevealOption,
+  delay: 1500,
+});
+
+ScrollReveal().reveal(".steps__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+ScrollReveal().reveal(".explore__card", {
+  duration: 1000,
+  interval: 500,
+});
+
+ScrollReveal().reveal(".job__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+ScrollReveal().reveal(".offer__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+const swiper = new Swiper(".swiper", {
+  loop: true,
+});
+
+    </script>
+  </body>
+</html>

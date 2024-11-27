@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Resume</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", sans-serif;
+    }
+
+    header {
+      position: fixed;
+      background: #22242A;
+      padding: 10px;
+      width: 100%;
+      height: 60px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .left_area h3 {
+      color: #fff;
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 22px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+    }
+
+    .left_area span {
+      color: #19B3D3;
+    }
+
+    #hamburger-menu {
+      font-size: 22px;
+      color: #fff;
+      cursor: pointer;
+      margin-right: 15px;
+      display: none;
+    }
+
+    .logout_btn {
+      padding: 10px 15px;
+      background: #19B3D3;
+      text-decoration: none;
+      border-radius: 2px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      transition: 0.5s;
+    }
+
+    .logout_btn:hover {
+      background: #0B87A6;
+    }
+
+    .sidebar {
+      background: #2f323a;
+      margin-top: 60px;
+      padding-top: 30px;
+      position: fixed;
+      left: 0;
+      width: 250px;
+      height: 100%;
+      z-index: 999;
+      transition: left 0.5s;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        left: -250px; /* Hide sidebar on small screens */
+      }
+
+      .content {
+        margin-left: 0; /* Adjust content for smaller screens */
+      }
+
+      #hamburger-menu {
+        display: inline-block; /* Show hamburger menu on small screens */
+      }
+    }
+
+    .sidebar .profile_image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ccc;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: background-size 0.3s;
+    }
+
+    .sidebar .profile_image i {
+      font-size: 30px;
+      color: #666;
+    }
+
+    .sidebar h4 {
+      color: #ccc;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      color: #fff;
+      display: block;
+      width: 100%;
+      line-height: 60px;
+      text-decoration: none;
+      padding-left: 40px;
+      box-sizing: border-box;
+      transition: 0.5s;
+    }
+
+    .sidebar a:hover {
+      background: #19B3D3;
+    }
+
+    .sidebar i {
+      padding-right: 10px;
+    }
+
+    .profile-input {
+      display: none; /* Hide the file input */
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 10px;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      margin-top: 1rem;
+      background-color: #f8f9fa;
+      padding: 60px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-actions button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-actions .save {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .form-actions .cancel {
+      background-color: #dc3545;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left_area">
+      <h3>
+        <i class="fas fa-bars" id="hamburger-menu"></i>
+        Skill <span>Mingle</span>
+      </h3>
+    </div>
+    <div class="right_area">
+      <a href="{% url 'logout' %}" class="logout_btn">Logout</a>
+    </div>
+  </header>
+
+  <div class="sidebar">
+    <center>
+      <form id="profile-form" enctype="multipart/form-data">
+        <label for="upload-profile-pic" class="profile-label">
+          <div class="profile_image">
+            <i class="fas fa-camera"></i>
+          </div>
+          <h4>{{ user.username }}</h4>
+        </label>
+        <input type="file" id="upload-profile-pic" class="profile-input" accept="image/*">
+      </form>
+    </center>
+    <a href="#"><i class="fas fa-user"></i><span>Profile</span></a>
+    <a href="#"><i class="fas fa-check-circle"></i><span>Applied-Job</span></a>
+    <a href="#"><i class="fas fa-briefcase"></i><span>Recommended-job</span></a>
+    <a href="#"><i class="fas fa-bell"></i><span>Notification</span></a>
+    <a href="#"><i class="fas fa-envelope"></i><span>Message</span></a>
+  </div>
+
+  <div class="content">
+    <div class="form-container">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="resume">Upload Resume</label>
+          <input id="resume" name="resume" required type="file" />
+        </div>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" name="name" required type="text" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" required type="email" />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" required type="tel" />
+        </div>
+        <div class="form-group">
+          <label for="education">Education</label>
+          <input id="education" name="education" required type="text" />
+        </div>
+        <div class="form-group">
+          <label for="skills">Skills</label>
+          <textarea id="skills" name="skills" required></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="save" type="submit">Save</button>
+          <button class="cancel" type="button" onclick="window.history.back();">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const hamburgerMenu = document.getElementById("hamburger-menu");
+    const sidebar = document.querySelector(".sidebar");
+
+    hamburgerMenu.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+    });
+
+    const uploadInput = document.getElementById("upload-profile-pic");
+    const profileImage = document.querySelector(".profile_image");
+    const cameraIcon = document.querySelector(".profile_image i");
+
+    uploadInput.addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          profileImage.style.backgroundImage = `url(${e.target.result})`;
+          profileImage.style.backgroundSize = "cover";
+          profileImage.style.backgroundPosition = "center";
+          cameraIcon.style.display = "none";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>

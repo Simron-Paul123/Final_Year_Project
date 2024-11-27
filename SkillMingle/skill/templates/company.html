@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+  
+
+    <title>Job portal | SkillMingle</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo">Skill<span>Mingle</span></a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#service">Services</a></li>
+        <li><a href="#Contact">Contact</a></li>
+        <li><button class="btn">Register</button></li>
+      </ul>
+    </nav>
+    <header class="section__container header__container" id="home">
+      {%load static%}
+     
+      <img  src="{%static '/assets/google.png'%}" alt="header" />
+      <img  src="{%static '/assets/twitter.png'%}" alt="header" />
+      <img  src="{%static '/assets/amazon.png'%}" alt="header" />
+      <img  src="{%static '/assets/figma.png'%}" alt="header" />
+      <img  src="{%static '/assets/linkedin.png'%}" alt="header" />
+      <img  src="{%static '/assets/microsoft.png'%}" alt="header" />
+      <h2>
+        <img  src="{%static '/assets/bag.png'%}" alt="header" />
+       
+        An AI driven Talent Acquisition System
+      </div>
+      <h1>Connecting Talent &<br />Creating Futures By <span>SKILLMINGLE</span></h1>
+      <p>
+        SkillMingle is a cutting-edge, AI-powered talent acquisition platform designed to seamlessly connect skilled professionals with the right opportunities. By intelligently matching talent with industry needs, SkillMingle not only streamlines recruitment but also helps shape a brighter future for businesses and individuals alike.
+      </p>
+      <div class="header__btns">
+        <a href="/admin/skill/category">
+          <button class="btn">Manage Category</button>
+      </a>
+       <span> <a href="/admin/skill/job">
+        <button class="btn">Manage Job</button>
+    </a>
+       </span>
+      </div>
+    </header>
+  
+      <section class="section__container offer__container" id="service">
+        <h2 class="section__header">What We <span>Offer</span></h2>
+        <p class="section__description">
+          Explore the Benefits and Services We Provide to Hire Talent
+        </p>
+        <div class="offer__grid">
+          <div class="offer__card">
+            {%load static%}
+          <img  src="{% static '/assets/offer-1.jpg'%}" alt="offer" />
+            <div class="offer__details">
+              <span>01</span>
+              <div>
+                <h4>Resume shortlisting</h4>
+                <p>
+                  Efficiently shortlist resumes to find the best candidates for your job openings.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="offer__card">
+            {%load static%}
+            <img  src="{% static '/assets/offer-2.jpg'%}" alt="offer" />
+            <div class="offer__details">
+              <span>02</span>
+              <div>
+                <h4>Jobs management</h4>
+                <p>Efficiently oversee and organize all job postings and applications in one place.</p>
+              </div>
+            </div>
+          </div>
+          <div class="offer__card">
+            {%load static%}
+            <img  src="{% static '/assets/offer-3.jpg'%}" alt="offer" />
+            <div class="offer__details">
+              <span>03</span>
+              <div>
+                <h4>Interview Schedewling</h4>
+                <p>Streamline your hiring process with easy, organized interview scheduling</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+  
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <a href="#" class="logo">Skill<span>Mingle</span></a>
+          </div>
+          <p>
+            Our platform is designed to help you find jobs and hire talent
+          </p>
+        </div>
+        <div class="footer__col">
+          <h4>Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Jobs</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Follow Us</h4>
+          <ul class="footer__links">
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Youtube</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Contact Us</h4>
+          <ul class="footer__links">
+            <li>
+              <a href="#">
+                <span><i class="ri-phone-fill"></i></span> +91 8334814704
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span><i class="ri-map-pin-2-fill"></i></span> Kolkata , West Bengal , India
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar">
+        Copyright © SkillMingle.com. All rights reserved.
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      const menuBtn = document.getElementById("menu-btn");
+const navLinks = document.getElementById("nav-links");
+const menuBtnIcon = menuBtn.querySelector("i");
+
+menuBtn.addEventListener("click", (e) => {
+  navLinks.classList.toggle("open");
+
+  const isOpen = navLinks.classList.contains("open");
+  menuBtnIcon.setAttribute("class", isOpen ? "ri-close-line" : "ri-menu-line");
+});
+
+navLinks.addEventListener("click", (e) => {
+  navLinks.classList.remove("open");
+  menuBtnIcon.setAttribute("class", "ri-menu-line");
+});
+
+const scrollRevealOption = {
+  distance: "50px",
+  origin: "bottom",
+  duration: 1000,
+};
+
+ScrollReveal().reveal(".header__container h2", {
+  ...scrollRevealOption,
+});
+ScrollReveal().reveal(".header__container h1", {
+  ...scrollRevealOption,
+  delay: 500,
+});
+ScrollReveal().reveal(".header__container p", {
+  ...scrollRevealOption,
+  delay: 1000,
+});
+ScrollReveal().reveal(".header__btns", {
+  ...scrollRevealOption,
+  delay: 1500,
+});
+
+ScrollReveal().reveal(".steps__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+ScrollReveal().reveal(".explore__card", {
+  duration: 1000,
+  interval: 500,
+});
+
+ScrollReveal().reveal(".job__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+ScrollReveal().reveal(".offer__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+const swiper = new Swiper(".swiper", {
+  loop: true,
+});
+
+    </script>
+  </body>
+</html>
