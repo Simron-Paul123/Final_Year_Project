@@ -35,7 +35,7 @@ class CustomUser(AbstractUser):
     skills = models.TextField(blank=True, null=True)
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     usertype = models.CharField(max_length=10, choices=(('recruiter', 'Recruiter'), ('job_seeker', 'Job Seeker')))
-    is_approved = models.BooleanField()
+    is_approved = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['email', 'usertype']
     
