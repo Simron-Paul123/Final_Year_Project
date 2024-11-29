@@ -214,7 +214,8 @@
 
   <div class="sidebar">
     <center>
-      <form id="profile-form" enctype="multipart/form-data">
+      <form method="POST" id="profile-form" enctype="multipart/form-data">
+        {% csrf_token %}
         <label for="upload-profile-pic" class="profile-label">
           <div class="profile_image">
             <i class="fas fa-camera"></i>
@@ -235,35 +236,36 @@
     <div class="form-container">
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+       <!-- <div class="form-group">
+            <label for="resume">Upload Resume</label>
+            <input id="resume" name="resume" type="file" />
+        </div> -->
         <div class="form-group">
-          <label for="resume">Upload Resume</label>
-          <input id="resume" name="resume" required type="file" />
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" value="{{ name }}" readonly />
         </div>
         <div class="form-group">
-          <label for="name">Name</label>
-          <input id="name" name="name" required type="text" />
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" value="{{ email }}" readonly />
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" name="email" required type="email" />
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" value="{{ phone }}" />
         </div>
         <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input id="phone" name="phone" required type="tel" />
+            <label for="education">Education</label>
+            <input id="education" name="education" type="text" value="{{ education }}" />
         </div>
         <div class="form-group">
-          <label for="education">Education</label>
-          <input id="education" name="education" required type="text" />
-        </div>
-        <div class="form-group">
-          <label for="skills">Skills</label>
-          <textarea id="skills" name="skills" required></textarea>
+            <label for="skills">Skills</label>
+            <textarea id="skills" name="skills">{{ skills }}</textarea>
         </div>
         <div class="form-actions">
-          <button class="save" type="submit">Save</button>
-          <button class="cancel" type="button" onclick="window.history.back();">Cancel</button>
+            <button class="save" type="submit">Save</button>
+            <button class="cancel" type="button" onclick="window.history.back();">Cancel</button>
         </div>
-      </form>
+    </form>
+    
     </div>
   </div>
 

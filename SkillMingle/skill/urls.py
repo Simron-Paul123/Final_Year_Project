@@ -11,4 +11,5 @@ urlpatterns = [
     path('user_dashboard', views.user_dashboard, name='user_dashboard'),
     path('jobseeker', views.job_seeker, name='job_seeker'),
     path('company', views.company, name='company'),
+    path('prediction',views.prediction,name='prediction'),
 ]

@@ -1,0 +1,54 @@
+.explore__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Align cards with spacing */
+}
+
+.explore__card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    width: calc(25% - 10px); /* 4 cards per row */
+    box-sizing: border-box;
+}
+
+.explore__card:nth-child(1) span {
+    color: #f04a0c;
+    background-color: #f6efef;
+}
+
+.explore__card:nth-child(2) span {
+    color: #6a38c2;
+    background-color: #e9ddff;
+}
+
+.explore__card:nth-child(3) span {
+    color: #ff0101;
+    background-color: #fff2f2;
+}
+
+.explore__card:nth-child(4) span {
+    color: #fbbc09;
+    background-color: #fff8e3;
+}
+
+.explore__card:nth-child(5) span {
+    color: #4680e7;
+    background-color: #e7edf8;
+}
+
+.explore__card:nth-child(6) span {
+    color: #34a753;
+    background-color: #f1fef5;
+}
+
+.explore__card:nth-child(7) span {
+    color: #443ee0;
+    background-color: #f6f5ff;
+}
+
+.explore__card:nth-child(8) span {
+    color: #3ac2ba;
+    background-color: #f0fffe;
+}

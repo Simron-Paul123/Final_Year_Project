@@ -23,7 +23,7 @@ class Job(models.Model):
     employment_type = models.CharField(max_length=50, default='Full Time')  # Default value for employment_type
     salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Default value for salary
     category = models.ForeignKey(Category, related_name='jobs', on_delete=models.CASCADE)
-
+    skill=models.CharField(max_length=100,default=' Required skills')
     def __str__(self):
         return self.title
 

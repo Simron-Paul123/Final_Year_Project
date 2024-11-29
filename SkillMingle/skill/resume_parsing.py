@@ -1,143 +1,63 @@
-import os
-from django.conf import settings
-from django.shortcuts import render,HttpResponse,redirect
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.core.files.storage import FileSystemStorage
+from .models import Job
+from pdfminer.converter import TextConverter
+from pdfminer.pdfinterp import PDFPageInterpreter, PDFResourceManager
+from pdfminer.layout import LAParams
+from pdfminer.pdfpage import PDFPage
+from pdfminer.high_level import extract_text
+import io
+import pandas as pd
+import spacy
+from spacy.matcher import Matcher
+import re
 
-#import resume_parsing
-from .resume_parsing import extract_education, extract_email, extract_mobile_number, extract_name, extract_skills, extract_text_from_pdf
-from .models import Category, CustomUser, Job
+nlp = spacy.load('en_core_web_sm')
 
-# Create your views here.
-@login_required(login_url='login')
-def HomePage(request):
-    return render (request,'job_seeker.html')
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+def extract_text_from_pdf(pdf_path):
+    return extract_text(pdf_path)
 
-        if user is not None:
-            if user.usertype == 'recruiter' and not user.is_approved:
-                return HttpResponse("Your account is awaiting for admin approval.")
-            
-            login(request, user)
-            
-            if user.usertype == 'recruiter':
-                return redirect('company')  # Update this with your recruiter dashboard URL
-            
-            elif user.usertype == 'job_seeker':
-                # Check if CV is provided
-                if user.cv:
-                    return redirect('job_seeker')  # Update this with your job seeker dashboard URL
-                else:
-                    return redirect('prediction')  # Redirect to a page prompting them to upload CV
-            
-        else:
-            return HttpResponse("Username or Password is incorrect!")
-    
-    return render(request, 'user_reg.html')
+#Extract Name Function
+def extract_name(text):
 
-def register_view(request):
-    if request.method == 'POST':
-        uname = request.POST.get('username')
-        email = request.POST.get('email')
-        pass1 = request.POST.get('password1')
-        pass2 = request.POST.get('password2')
-        usertype = request.POST.get('usertype')
+    initial_text = text[:100]
+    doc = nlp(initial_text)
 
-        if pass1 != pass2:
-            return HttpResponse("Your password and confirm password are not the same!")
-        if CustomUser.objects.filter(username=uname).exists():
-            return HttpResponse("Username already exists!")
-        if CustomUser.objects.filter(email=email).exists():
-            return HttpResponse("Email already exists!")
-        if usertype not in ['recruiter', 'job_seeker']:
-            return HttpResponse("Invalid user type!")
+    # Look for "PERSON" entities in the top portion of the resume
+    for ent in doc.ents:
+        if ent.label_ == "PERSON":
+            return ent.text
 
-        # Create the user
-        is_approved = usertype == 'job_seeker'  # Job seekers are auto-approved
-        my_user = CustomUser.objects.create_user(username=uname, email=email, password=pass1, usertype=usertype, is_approved=is_approved)
-        my_user.save()
-        return redirect('login')
-    return render(request, 'user_reg.html')
-
-def LogoutPage(request):
-    logout(request)
-    return redirect('login')
-@login_required(login_url='login')
-def job_seeker(request):
-    jobs = Job.objects.all()  # Fetch all job entries from the Job model
-    categories = Category.objects.all()  # Fetch all category entries from the Category model
-    return render(request, 'job_seeker.html', {'jobs': jobs, 'categories': categories})
-@login_required(login_url='login')
-def company(request):
-    return render(request, 'company.html')
+    # If no name found using spaCy, we use regex as a backup
+    pattern = r"\b[A-Z][a-z]+\s[A-Z][a-z]+\b"
+    match = re.search(pattern, initial_text)
+    return match.group() if match else "Name not found"
 
 
-@login_required(login_url='login')
-def user_dashboard(request):
-    user = request.user  # Get the logged-in user
-
-    if request.method == "POST":
-        # Handle profile picture upload
-        if request.FILES.get('profile_pic'):
-            profile_pic = request.FILES['profile_pic']
-            fs = FileSystemStorage(location='media/profile_pics/')  # Corrected folder name
-            filename = fs.save(profile_pic.name, profile_pic)
-            uploaded_file_url = fs.url(filename)
-
-            # Save the profile picture URL in the user's profile
-            user.profile_pic = f"profile_pics/{filename}"  # Corrected folder path
-            user.save()
-
-        # Handle form updates for name, email, phone, etc.
-        user.phone_no = request.POST.get('phone', user.phone_no)
-        user.education = request.POST.get('education', user.education)
-        user.skills = request.POST.get('skills', user.skills)
-
-        # Save the updated user data
-        user.save()
-
-        # Redirect to the same page to show the updated profile
-        return redirect('user_dashboard')
-
-    context = {
-        'name': user.username,
-        'email': user.email,
-        'phone': user.phone_no,
-        'education': user.education,
-        'skills': user.skills,
-        'profile_pic': user.profile_pic,  # If you need to show the profile pic
-    }
-    
-    return render(request, 'user_dashboard.html', context)
+#mobile number
+def extract_mobile_number(text):
+    pattern = r"(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}"
+    match = re.search(pattern, text)
+    return match.group() if match else "Contact number not found"
 
 
+#extract email
 
-@login_required(login_url='login')
-def prediction(request):
-    if request.method == 'POST' and request.FILES.get('resume'):
-        resume = request.FILES['resume']
-        fs = FileSystemStorage(location='media/cv/')  # Save in media/cv/
-        filename = fs.save(resume.name, resume)
-        uploaded_file_url = fs.url(filename)
-        
-        # Update the user model
-        user = request.user
-        user.cv = f"cv/{filename}"  # Relative path to the file
-        user.save()
-        pdf_path = user.cv.path
-        extracted_text = extract_text_from_pdf(pdf_path)
-        user.username = extract_name(extracted_text)
-        user.email = user.email #extract_email(extracted_text) or 
-        user.phone_no = extract_mobile_number(extracted_text)
-        skills_list = ['Python', 'Data Analysis', 'Machine Learning','SpringBoot', 'Communication', 'Project Management', 'Deep Learning', 'SQL', 'Tableau',
+def extract_email(text):
+    pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
+    match = re.search(pattern, text)
+    return match.group() if match else "Email not found"
+
+
+#extract skills
+def extract_skills(text, skills_list):
+    skills_found = []
+    for skill in skills_list:
+        if re.search(r"\b" + re.escape(skill) + r"\b", text, re.IGNORECASE):
+            skills_found.append(skill)
+    return skills_found if skills_found else "No skills found"
+#def get_skills():
+ #   return Job.objects.all()
+
+skills_list = ['Python', 'Data Analysis', 'Machine Learning','SpringBoot', 'Communication', 'Project Management', 'Deep Learning', 'SQL', 'Tableau',
     'Java', 'C++', 'JavaScript', 'HTML', 'CSS', 'React', 'Angular', 'Node.js', 'MongoDB', 'Express.js', 'Git',
     'Research', 'Statistics', 'Quantitative Analysis', 'Qualitative Analysis', 'SPSS', 'R', 'Data Visualization', 'Matplotlib',
     'Seaborn', 'Plotly', 'Pandas', 'Numpy', 'Scikit-learn', 'TensorFlow', 'Keras', 'PyTorch', 'NLTK', 'Text Mining',
@@ -182,9 +102,23 @@ def prediction(request):
     'Vulnerability Assessment', 'Incident Response', 'Forensic Analysis', 'Security Operations Center (SOC)', 'Identity and Access Management (IAM)', 'Single Sign-On (SSO)',
     'Multi-Factor Authentication (MFA)', 'Blockchain', 'Cryptocurrency', 'Decentralized Finance (DeFi)', 'Smart Contracts', 'Web3', 'Non-Fungible Tokens (NFTs)']
 
-        user.skills = ", ".join(extract_skills(extracted_text,skills_list))
 
-        education_keywords = ['Computer Science', 'Information Technology', 'Software Engineering', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering',
+def get_matching_skills(extracted_skills, job_id):
+    # Retrieve job and extract required skills
+    try:
+        job = Job.objects.get(id=job_id)
+        required_skills = [skill.lower().strip() for skill in job.get_skills_list()]
+        print(f"Required Skills: {required_skills}")
+    except Job.DoesNotExist:
+        return "Job not found"
+
+    # Normalize extracted skills and find matches
+    extracted_skills = [skill.lower().strip() for skill in extracted_skills]
+    matched_skills = list(set(extracted_skills) & set(required_skills))
+    
+    return matched_skills if matched_skills else "No matching skills found"
+
+education_keywords = ['Computer Science', 'Information Technology', 'Software Engineering', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering',
         'Chemical Engineering', 'Biomedical Engineering', 'Aerospace Engineering', 'Nuclear Engineering', 'Industrial Engineering', 'Systems Engineering',
         'Environmental Engineering', 'Petroleum Engineering', 'Geological Engineering', 'Marine Engineering', 'Robotics Engineering', 'Biotechnology',
         'Biochemistry', 'Microbiology', 'Genetics', 'Molecular Biology', 'Bioinformatics', 'Neuroscience', 'Biophysics', 'Biostatistics', 'Pharmacology',
@@ -210,11 +144,31 @@ def prediction(request):
         'Cartography', 'GIS (Geographic Information Systems)', 'Environmental Management', 'Sustainability Studies', 'Renewable Energy',
         'Green Technology', 'Ecology', 'Conservation Biology', 'Wildlife Biology', 'Zoology']
 
-        user.education= ", ".join(extract_education(extracted_text,education_keywords))
-        user.save()  # Save all extracted details to the database
-        print(f"File saved at: {uploaded_file_url}")  # Debugging
-        messages.success(request, "Your resume has been uploaded successfully!")
-        return redirect('user_dashboard')
-    return render(request, 'prediction.html')
+def extract_education(text, education_keywords):
+    education_found = []
+    for keyword in education_keywords:
+        if re.search(r"\b" + re.escape(keyword) + r"\b", text, re.IGNORECASE):
+            education_found.append(keyword)
+    return education_found if education_found else "No education information found"
 
 
+
+# Main code execution
+pdf_path = "//workspaces//Final_Year_Project//SkillMingle//media//cv//Simron_Paul_CV.pdf"
+text = extract_text_from_pdf(pdf_path)
+name = extract_name(text)
+phone = extract_mobile_number(text)
+email = extract_email(text)
+skills = extract_skills(text,skills_list)
+education = extract_education(text, education_keywords)
+#matching_skills = get_matching_skills(skills)
+
+#job_id = 1  # Replace with the actual job ID
+#matching_skills = get_matching_skills(skills, job_id)
+
+print(f"Name: {name}")
+print(f"Phone: {phone}")
+print(f"Email: {email}")
+print(f"Skills: {skills}")
+print(f"education: {education}")
+#print(f"Matching Skills: {matching_skills}")
