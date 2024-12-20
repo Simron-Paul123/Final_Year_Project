@@ -84,28 +84,37 @@ def company(request):
 def user_dashboard(request):
     user = request.user  # Get the logged-in user
 
-    if request.method == "POST":
-        # Handle profile picture upload
-        if request.FILES.get('profile_pic'):
-            profile_pic = request.FILES['profile_pic']
-            fs = FileSystemStorage(location='media/profile_pics/')  # Corrected folder name
-            filename = fs.save(profile_pic.name, profile_pic)
-            uploaded_file_url = fs.url(filename)
+    success_message = None  # To store a success message
 
-            # Save the profile picture URL in the user's profile
-            user.profile_pic = f"profile_pics/{filename}"  # Corrected folder path
+    if request.method == "POST":
+        try:
+            # Handle profile picture upload
+            if request.FILES.get('profile_pic'):
+                profile_pic = request.FILES['profile_pic']
+
+                # Create a unique filename to avoid overwrites
+                file_extension = os.path.splitext(profile_pic.name)[1]
+                unique_filename = f"{user.username}_{user.id}{file_extension}"
+                fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'profile_pics'))
+                filename = fs.save(unique_filename, profile_pic)
+                user.profile_pic = f"profile_pics/{filename}"
+
+            # Handle other form fields
+            user.phone_no = request.POST.get('phone', user.phone_no)
+            user.education = request.POST.get('education', user.education)
+            user.skills = request.POST.get('skills', user.skills)
+
+            # Save the user profile
             user.save()
 
-        # Handle form updates for name, email, phone, etc.
-        user.phone_no = request.POST.get('phone', user.phone_no)
-        user.education = request.POST.get('education', user.education)
-        user.skills = request.POST.get('skills', user.skills)
+            # Set success message
+            success_message = "Your profile has been updated successfully!"
 
-        # Save the updated user data
-        user.save()
-
-        # Redirect to the same page to show the updated profile
-        return redirect('user_dashboard')
+        except Exception as e:
+            return render(request, 'user_dashboard.html', {
+                'user': user,
+                'error': f"An error occurred: {e}",
+            })
 
     context = {
         'name': user.username,
@@ -113,13 +122,11 @@ def user_dashboard(request):
         'phone': user.phone_no,
         'education': user.education,
         'skills': user.skills,
-        'profile_pic': user.profile_pic,  # If you need to show the profile pic
+        'profile_pic': user.profile_pic,
+        'success_message': success_message,  # Pass success message to the template
     }
-    
+
     return render(request, 'user_dashboard.html', context)
-
-
-
 @login_required(login_url='login')
 def prediction(request):
     if request.method == 'POST' and request.FILES.get('resume'):
