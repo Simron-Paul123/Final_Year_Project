@@ -227,6 +227,13 @@
         {% endfor %}
         
         </div>
+        {% if jobs|length > 3 %}
+    <div class="job__btn">
+      <a href="{% url 'all_jobs' %}">
+        <button class="btn" id="viewAllJobsBtn">View All Jobs</button>
+      </a>
+    </div>
+  {% endif %}
     </section>
 
     <section class="section__container offer__container" id="service">

@@ -70,11 +70,17 @@ def register_view(request):
 def LogoutPage(request):
     logout(request)
     return redirect('login')
+
 @login_required(login_url='login')
 def job_seeker(request):
     jobs = Job.objects.all()  # Fetch all job entries from the Job model
     categories = Category.objects.all()  # Fetch all category entries from the Category model
     return render(request, 'job_seeker.html', {'jobs': jobs, 'categories': categories})
+
+def all_jobs(request):
+    jobs = Job.objects.all()  # Fetch all jobs from the database
+    return render(request, 'all_jobs.html', {'jobs': jobs})
+
 @login_required(login_url='login')
 def company(request):
     return render(request, 'company.html')
