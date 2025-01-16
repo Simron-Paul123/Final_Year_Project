@@ -1,4 +1,5 @@
 # models.py
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 class Category(models.Model):
@@ -24,6 +25,15 @@ class Job(models.Model):
     salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Default value for salary
     category = models.ForeignKey(Category, related_name='jobs', on_delete=models.CASCADE)
     skill=models.CharField(max_length=100,default=' Required skills')
+    ddate_of_posting = models.DateField(default=date.today)  # Use today's date as default
+    start_date = models.DateField(null=True, blank=True)  # Optional field for job start date
+    apply_before = models.DateField(null=True, blank=True)  # Deadline for applications
+    no_of_applicants = models.PositiveIntegerField(default=0)  # Number of applicants
+    duration = models.CharField(
+        max_length=50,
+        default="Not mentioned"
+    )  # Optional job duration with default value
+    experience=models.CharField(max_length=100,default=' Required experience')
     def __str__(self):
         return self.title
 

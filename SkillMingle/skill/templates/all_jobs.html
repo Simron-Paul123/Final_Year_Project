@@ -55,7 +55,7 @@
             </div>
 
             <div class="skills">
-                {% for skill in job.skill.split(',') %}
+                {% for skill in job.skills_list %}
                 <div class="skill">{{ skill }}</div>
                 {% endfor %}
             </div>

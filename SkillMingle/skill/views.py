@@ -13,6 +13,11 @@ from .resume_parsing import extract_education, extract_email, extract_mobile_num
 from .models import Category, CustomUser, Job
 
 # Create your views here.
+def trypage(request):
+    jobs = Job.objects.all()
+    for job in jobs:
+        job.skills_list = job.skill.split(',')  # Add a skills_list attribute
+    return render(request, 'try.html', {'jobs': jobs})
 @login_required(login_url='login')
 def HomePage(request):
     return render (request,'job_seeker.html')
@@ -78,7 +83,9 @@ def job_seeker(request):
     return render(request, 'job_seeker.html', {'jobs': jobs, 'categories': categories})
 
 def all_jobs(request):
-    jobs = Job.objects.all()  # Fetch all jobs from the database
+    jobs = Job.objects.all()
+    for job in jobs:
+        job.skills_list = job.skill.split(',')  # Add a skills_list attribute
     return render(request, 'all_jobs.html', {'jobs': jobs})
 
 @login_required(login_url='login')
