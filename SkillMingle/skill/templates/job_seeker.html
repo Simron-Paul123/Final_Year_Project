@@ -207,10 +207,10 @@
 
       <div class="job__grid">
 
-        {% for job in jobs %}
+        {% for job in jobs|slice:":3" %} <!-- Show only the first three jobs -->
         <div class="job__card">
           <div class="job__card__header">
-            <img src="{{ job.company_logo.url }}" alt="{{ job.company_name }}" /> <!-- Ensure the field is defined in your Job model -->
+            <img src="{{ job.company_logo.url }}" alt="{{ job.company_name }}" />
             <div>
               <h5>{{ job.company_name }}</h5>
               <h6>{{ job.location }}</h6>
@@ -221,20 +221,22 @@
           <div class="job__card__footer">
             <span>{{ job.positions }} Positions</span>
             <span>{{ job.employment_type }}</span>
-            <span>${{ job.salary }}/Year</span>
+            <span>${{ job.salary }}LPA/Year</span>
           </div>
         </div>
-        {% endfor %}
-        
-        </div>
-        {% if jobs|length > 3 %}
-    <div class="job__btn">
-      <a href="{% url 'all_jobs' %}">
-        <button class="btn" id="viewAllJobsBtn">View All Jobs</button>
-      </a>
+        {% empty %}
+            <li>No jobs available.</li>
+      {% endfor %}
     </div>
-  {% endif %}
-    </section>
+  </br>
+    {% if jobs|length > 3 %}
+      <div class="job__btn">
+        <a href="{% url 'all_jobs' %}">
+        <center>  <button class="btn" id="viewAllJobsBtn">View All Jobs</button>
+        </a>  </center>
+      </div>
+    {% endif %}
+  </section>
 
     <section class="section__container offer__container" id="service">
       <h2 class="section__header">What We <span>Offer</span></h2>
