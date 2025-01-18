@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Upload Resume</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <link
+  href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+{% load static%}
+
+<link rel="stylesheet" href="{% static 'stylles.css' %}">
   <style>
     body {
       margin: 0;
@@ -197,6 +212,175 @@
       background-color: #dc3545;
       color: white;
     }
+
+    @import url('https://fonts.googleapis.com/css?family=Hind|Open+Sans');
+
+    section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures it takes up at least the full viewport height */
+}
+.job-cards-container {
+  display: flex;
+  flex-direction: column; /* Ensures the job cards are stacked vertically */
+  align-items: center; /* Centers the cards horizontally */
+  gap: 20px; /* Adds space between the cards */
+}
+
+/* Category Section */
+.category-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.category-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+
+.category-button {
+  background-color: #6a38c2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.category-button:hover {
+  background-color: #6a38c2;
+}
+.navbar-border {
+  border-bottom: 2px solid #6a38c2; /* Blue border color */
+  margin-top: 20px;  /* Space from the navbar */
+}
+
+
+.job-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 30px 20px; /* Increased padding for better content spacing */
+  width: 900px; /* Increased width of the job card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px; /* Space between cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures that the content is spaced evenly */
+}
+
+.job-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Space below the header */
+}
+
+.job-header img {
+  border-radius: 50%;
+  width: 80px; /* Increased logo size */
+  height: 80px;
+  margin-right: 20px; /* Space between logo and text */
+}
+
+.job-title {
+  font-size: 24px; /* Bigger title */
+  font-weight: bold;
+}
+
+.job-company,
+.job-location {
+  font-size: 16px; /* Increased size of company and location */
+  color: #6c757d;
+}
+
+      
+
+  .skills {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 15px 0;
+  }
+
+  .skill {
+      background-color: #e1ecf4;
+      border-radius: 20px;
+      padding: 6px 12px;
+      margin: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #6a38c2;
+  }
+
+  .job-details {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+  }
+
+  .job-details div {
+      text-align: center;
+  }
+
+  .job-details i {
+      display: block;
+      margin-bottom: 5px;
+      color: #6a38c2;
+  }
+
+  .job-details span {
+      font-size: 14px;
+      font-weight: bold;
+      color: #495057;
+  }
+
+  .job-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+  }
+
+  .job-footer a {
+      text-decoration: none;
+      color: #6a38c2;
+      font-size: 14px;
+      font-weight: bold;
+  }
+
+  .button-group {
+      display: flex;
+      gap: 10px;
+  }
+
+  .apply-button, .view-button {
+      background-color: #6a38c2;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+  }
+
+  .apply-button:hover, .view-button:hover {
+      background-color: #6a38c2;
+  }
+
+  #jobCardsContainer {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#jobCardsContainer.show {
+    display: block;
+    opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -227,7 +411,7 @@
     </center>
     <a href="#"><i class="fas fa-user"></i><span>Profile</span></a>
     <a href="#"><i class="fas fa-check-circle"></i><span>Applied-Job</span></a>
-    <a href="#"><i class="fas fa-briefcase"></i><span>Recommended-job</span></a>
+    <a href="#" id="recommended-job-link"><i class="fas fa-briefcase"></i><span>Recommended-job</span></a>
     <a href="#"><i class="fas fa-bell"></i><span>Notification</span></a>
     <a href="#"><i class="fas fa-envelope"></i><span>Message</span></a>
   </div>
@@ -267,20 +451,79 @@
     </form>
     
     </div>
+
+    <section class="job-cards-container">
+      {% for job in jobs %}
+      <div class="job-card">
+          <div class="job-header">
+              <img src="{{ job.company_logo.url }}" alt="{{ job.company_name }}" />
+              <div>
+                  <p class="job-title">{{ job.title }}</p>
+                  <p class="job-company">{{ job.company_name }}</p>
+                  <p class="job-location">{{ job.location }} •  {{ job.employment_type }}</p>
+              </div>
+          </div>
+
+          <div class="skills">
+              {% for skill in job.skills_list %}
+              <div class="skill">{{ skill }}</div>
+              {% endfor %}
+          </div>
+
+          <div class="job-details">
+              <div>
+                  <i class="fas fa-briefcase"></i>
+                  <span>Salary: {{ job.salary|floatformat:2 }} LPA</span>
+              </div>
+
+              <div>
+                <i class="fas fa-calendar-alt"></i>
+                <span>Start date: {{ job.start_date }}</span>
+              </div>
+
+              <div>
+                <i class="fas fa-clock"></i>
+                <span>Experience: {{ job.experience }}</span>
+              </div>
+
+              <div>
+                  <i class="fas fa-users"></i>
+                  <span>Openings: {{ job.positions }} </span>
+              </div>
+              <div>
+                  <i class="fas fa-clock"></i>
+                  <span>Duration: {{ job.duration }}</span>
+              </div>
+          </div>
+          <div class="job-footer">
+            <a href="#"> {{ job.no_of_applicants }} applicants</a>
+              <a href="#">Apply by {{ job.apply_before }} • Posted {{ job.ddate_of_posting }}</a>
+              <div class="button-group">
+                  <button class="view-button">View Details</button>
+                  <button class="apply-button">Apply Now</button>
+              </div>
+          </div>
+      </div>
+      {% empty %}
+      <p>No jobs available at the moment.</p>
+      {% endfor %}
+  </section>
+
+  
   </div>
 
   <script>
     const hamburgerMenu = document.getElementById("hamburger-menu");
     const sidebar = document.querySelector(".sidebar");
-
+  
     hamburgerMenu.addEventListener("click", () => {
       sidebar.classList.toggle("active");
     });
-
+  
     const uploadInput = document.getElementById("upload-profile-pic");
     const profileImage = document.querySelector(".profile_image");
     const cameraIcon = document.querySelector(".profile_image i");
-
+  
     uploadInput.addEventListener("change", function (event) {
       const file = event.target.files[0];
       if (file) {
@@ -294,6 +537,23 @@
         reader.readAsDataURL(file);
       }
     });
+  
+    // Hide form when clicking Recommended-job
+    const recommendedJobLink = document.getElementById("recommended-job-link");
+    const formContainer = document.querySelector(".form-container");
+  
+    recommendedJobLink.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent default anchor behavior
+      formContainer.style.display = "none"; // Hide the form container
+    });
+
+    document.getElementById('submitForm').addEventListener('click', function() {
+      // Hide the form
+      document.getElementById('jobForm').style.display = 'none';
+      // Show the job cards container
+      document.getElementById('jobCardsContainer').style.display = 'block';
+  });
   </script>
+  
 </body>
 </html>

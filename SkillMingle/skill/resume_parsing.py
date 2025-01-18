@@ -154,7 +154,7 @@ def extract_education(text, education_keywords):
 
 
 # Main code execution
-pdf_path = "//workspaces//Final_Year_Project//SkillMingle//media//cv//SIMRON_PAUL_CV.pdf"
+pdf_path = "//workspaces//Final_Year_Project//SkillMingle//media//cv//Diya_Adhikary_CV.pdf"
 text = extract_text_from_pdf(pdf_path)
 name = extract_name(text)
 phone = extract_mobile_number(text)

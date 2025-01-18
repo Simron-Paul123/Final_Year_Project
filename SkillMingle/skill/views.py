@@ -96,7 +96,7 @@ def company(request):
 @login_required(login_url='login')
 def user_dashboard(request):
     user = request.user  # Get the logged-in user
-
+    recommended_jobs = []  # To store the recommended jobs
     success_message = None  # To store a success message
 
     if request.method == "POST":
@@ -128,6 +128,21 @@ def user_dashboard(request):
                 'user': user,
                 'error': f"An error occurred: {e}",
             })
+    user_skills = set(user.skills.lower().split(',')) if user.skills else set()
+
+    if 'recommended' in request.GET:
+        from .models import Job  # Assuming you have a Job model
+
+        # Get all jobs
+        jobs = Job.objects.all()
+
+        # Filter jobs based on skill match (50% or more)
+        for job in jobs:
+            required_skills = set(job.skills_list.lower().split(',')) if job.skills_list else set()
+            matched_skills = user_skills.intersection(required_skills)
+            
+            if len(required_skills) > 0 and (len(matched_skills) / len(required_skills)) >= 0.5:
+                recommended_jobs.append(job)
 
     context = {
         'name': user.username,
@@ -223,7 +238,7 @@ def prediction(request):
         'Library Science', 'Information Science', 'Computer Engineering', 'Software Development', 'Cybersecurity', 'Information Security',
         'Network Engineering', 'Data Science', 'Data Analytics', 'Business Analytics', 'Operations Research', 'Decision Sciences',
         'Human-Computer Interaction', 'User Experience Design', 'User Interface Design', 'Digital Marketing', 'Content Strategy',
-        'Brand Management', 'Public Relations', 'Corporate Communications', 'Media Production', 'Digital Media', 'Web Development',
+        'Brand Management', 'Public Relations', 'Corporate Communications', 'Media Production', 'Digital Media',
         'Mobile App Development', 'Game Development', 'Virtual Reality', 'Augmented Reality', 'Blockchain Technology', 'Cryptocurrency',
         'Digital Forensics', 'Forensic Science', 'Criminalistics', 'Crime Scene Investigation', 'Emergency Management', 'Fire Science',
         'Environmental Science', 'Climate Science', 'Meteorology', 'Geography', 'Geomatics', 'Remote Sensing', 'Geoinformatics',
