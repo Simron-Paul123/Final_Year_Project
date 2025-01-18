@@ -13,11 +13,35 @@ from .resume_parsing import extract_education, extract_email, extract_mobile_num
 from .models import Category, CustomUser, Job
 
 # Create your views here.
+@login_required
 def trypage(request):
+    user = request.user  # Get the logged-in user
+    # Get the user's skills as a set (split by comma, convert to lowercase, and strip any extra spaces)
+    user_skills = {skill.strip().lower() for skill in user.skills.split(',')} if hasattr(user, 'skills') and user.skills else set()
+    print(f"user skills: {user_skills}")  # Debugging
+
+    # Fetch all jobs
     jobs = Job.objects.all()
+
+    matched_jobs = []
+
     for job in jobs:
-        job.skills_list = job.skill.split(',')  # Add a skills_list attribute
-    return render(request, 'try.html', {'jobs': jobs})
+        # Extract the required skills for the job (split by comma, convert to lowercase, and strip any spaces)
+        required_skills = {skill.strip().lower() for skill in job.skill.split(',')} if job.skill else set()
+        print(f"required skills: {required_skills}")  # Debugging
+
+        # Find the intersection of user skills and required skills
+        matched_skills = user_skills.intersection(required_skills)
+        print(f"matched skills: {matched_skills}")  # Debugging
+
+        # Match percentage condition (50% or more match)
+        if len(required_skills) > 0 and (len(matched_skills) / len(required_skills)) >= 0.5:
+            job.skills_list = job.skill.split(',')
+            matched_jobs.append(job)
+
+    # Render only matched jobs to the template
+    return render(request, 'try.html', {'jobs': matched_jobs})
+
 @login_required(login_url='login')
 def HomePage(request):
     return render (request,'job_seeker.html')
@@ -131,19 +155,32 @@ def user_dashboard(request):
     user_skills = set(user.skills.lower().split(',')) if user.skills else set()
 
     if 'recommended' in request.GET:
-        from .models import Job  # Assuming you have a Job model
+        user = request.user  # Get the logged-in user
+    # Get the user's skills as a set (split by comma, convert to lowercase, and strip any extra spaces)
+        user_skills = {skill.strip().lower() for skill in user.skills.split(',')} if hasattr(user, 'skills') and user.skills else set()
+        print(f"user skills: {user_skills}")  # Debugging
 
-        # Get all jobs
+    # Fetch all jobs
         jobs = Job.objects.all()
 
-        # Filter jobs based on skill match (50% or more)
-        for job in jobs:
-            required_skills = set(job.skills_list.lower().split(',')) if job.skills_list else set()
-            matched_skills = user_skills.intersection(required_skills)
-            
-            if len(required_skills) > 0 and (len(matched_skills) / len(required_skills)) >= 0.5:
-                recommended_jobs.append(job)
+        matched_jobs = []
 
+        for job in jobs:
+            # Extract the required skills for the job (split by comma, convert to lowercase, and strip any spaces)
+            required_skills = {skill.strip().lower() for skill in job.skill.split(',')} if job.skill else set()
+            print(f"required skills: {required_skills}")  # Debugging
+
+            # Find the intersection of user skills and required skills
+            matched_skills = user_skills.intersection(required_skills)
+            print(f"matched skills: {matched_skills}")  # Debugging
+
+            # Match percentage condition (50% or more match)
+            if len(required_skills) > 0 and (len(matched_skills) / len(required_skills)) >= 0.5:
+                job.skills_list = job.skill.split(',')
+                matched_jobs.append(job)
+
+    # Render only matched jobs to the template
+        return render(request, 'user_dashboard.html', {'jobs': matched_jobs})
     context = {
         'name': user.username,
         'email': user.email,

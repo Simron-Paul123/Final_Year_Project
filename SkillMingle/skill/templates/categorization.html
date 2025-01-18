@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    {% load static%}
+    
+    <link rel="stylesheet" href="{% static 'stylles.css' %}">
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Hind|Open+Sans');
+
+    section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures it takes up at least the full viewport height */
+}
+.job-cards-container {
+  display: flex;
+  flex-direction: column; /* Ensures the job cards are stacked vertically */
+  align-items: center; /* Centers the cards horizontally */
+  gap: 20px; /* Adds space between the cards */
+}
+
+/* Category Section */
+.category-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.category-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+
+.category-button {
+  background-color: #6a38c2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.category-button:hover {
+  background-color: #6a38c2;
+}
+.navbar-border {
+  border-bottom: 2px solid #6a38c2; /* Blue border color */
+  margin-top: 20px;  /* Space from the navbar */
+}
+
+
+.job-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 30px 20px; /* Increased padding for better content spacing */
+  width: 900px; /* Increased width of the job card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px; /* Space between cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures that the content is spaced evenly */
+}
+
+.job-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Space below the header */
+}
+
+.job-header img {
+  border-radius: 50%;
+  width: 80px; /* Increased logo size */
+  height: 80px;
+  margin-right: 20px; /* Space between logo and text */
+}
+
+.job-title {
+  font-size: 24px; /* Bigger title */
+  font-weight: bold;
+}
+
+.job-company,
+.job-location {
+  font-size: 16px; /* Increased size of company and location */
+  color: #6c757d;
+}
+
+      
+
+  .skills {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 15px 0;
+  }
+
+  .skill {
+      background-color: #e1ecf4;
+      border-radius: 20px;
+      padding: 6px 12px;
+      margin: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #6a38c2;
+  }
+
+  .job-details {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+  }
+
+  .job-details div {
+      text-align: center;
+  }
+
+  .job-details i {
+      display: block;
+      margin-bottom: 5px;
+      color: #6a38c2;
+  }
+
+  .job-details span {
+      font-size: 14px;
+      font-weight: bold;
+      color: #495057;
+  }
+
+  .job-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+  }
+
+  .job-footer a {
+      text-decoration: none;
+      color: #6a38c2;
+      font-size: 14px;
+      font-weight: bold;
+  }
+
+  .button-group {
+      display: flex;
+      gap: 10px;
+  }
+
+  .apply-button, .view-button {
+      background-color: #6a38c2;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+  }
+
+  .apply-button:hover, .view-button:hover {
+      background-color: #6a38c2;
+  }
+</style>
+    <title>SKillMingle</title>
+  </head>
+  
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo">skill<span>Mingle</span></a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#Jobs">About</a></li>
+        <li><a href="#Applied Jobs">Jobs</a></li>
+        <li><a href="#Recommendation">Services</a></li>
+        <!--<li><a href="#Services">Client</a></li>-->
+        {% if user.is_authenticated %}
+          <li class="welcome-msg"><span>Welcome, {{ user.username }}</span></li>
+        {% else %}
+          <li><a href="{% url 'register' %}" class="btn">Register</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <div class="navbar-border"></div>
+
+    <header class="section__container header__container" id="home">
+      <img src="https://pngimg.com/uploads/google/small/google_PNG19635.png" alt="header" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Solid_white_bordered.png" alt="header" />
+      <img src="https://e7.pngegg.com/pngimages/832/502/png-clipart-amazon-logo-text-brand-amazon-text-service-thumbnail.png" alt="header" />
+      <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png" alt="header" />
+      <img src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png" alt="header" />
+      <img src="https://i.pinimg.com/736x/91/92/1c/91921cec4f8a8cbe3d09e596e0659d81.jpg" alt="header" />
+      <!-- <h2>
+        <img src="assets/bag.png" alt="bag" />
+        No.1 Job Hunt Website
+      </h2>
+      <h1>Search, Apply &<br />Get Your <span>Dream Job</span></h1>
+      <p>
+        Your future starts here. Discover countless opportunities, take action
+        by applying to jobs that match your skills and aspirations, and
+        transform your career.
+      </p> -->
+      
+    </header>
+
+    
+    <div class="category-section">
+      <p class="category-title">Predicted Category:</p>
+      <button class="category-button">Software Developer</button>
+    </div>
+    
+      
+    <section class="job-cards-container">
+        {% for job in jobs %}
+        <div class="job-card">
+            <div class="job-header">
+                <img src="{{ job.company_logo.url }}" alt="{{ job.company_name }}" />
+                <div>
+                    <p class="job-title">{{ job.title }}</p>
+                    <p class="job-company">{{ job.company_name }}</p>
+                    <p class="job-location">{{ job.location }} •  {{ job.employment_type }}</p>
+                </div>
+            </div>
+
+            <div class="skills">
+                {% for skill in job.skills_list %}
+                <div class="skill">{{ skill }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="job-details">
+                <div>
+                    <i class="fas fa-briefcase"></i>
+                    <span>Salary: {{ job.salary|floatformat:2 }} LPA</span>
+                </div>
+
+                <div>
+                  <i class="fas fa-calendar-alt"></i>
+                  <span>Start date: {{ job.start_date }}</span>
+                </div>
+
+                <div>
+                  <i class="fas fa-clock"></i>
+                  <span>Experience: {{ job.experience }}</span>
+                </div>
+
+                <div>
+                    <i class="fas fa-users"></i>
+                    <span>Openings: {{ job.positions }} </span>
+                </div>
+                <div>
+                    <i class="fas fa-clock"></i>
+                    <span>Duration: {{ job.duration }}</span>
+                </div>
+            </div>
+            <div class="job-footer">
+              <a href="#"> {{ job.no_of_applicants }} applicants</a>
+                <a href="#">Apply by {{ job.apply_before }} • Posted {{ job.ddate_of_posting }}</a>
+                <div class="button-group">
+                    <button class="view-button">View Details</button>
+                    <button class="apply-button">Apply Now</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No jobs available at the moment.</p>
+        {% endfor %}
+    </section>
+
+    
+    
+
+
+
+
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <a href="#" class="logo">Skill<span>Mingle</span></a>
+          </div>
+          <p>
+            Our platform is designed to help you find the perfect job and
+            achieve your professional dreams.
+          </p>
+        </div>
+        <div class="footer__col">
+          <h4>Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Jobs</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Follow Us</h4>
+          <ul class="footer__links">
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Youtube</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Contact Us</h4>
+          <ul class="footer__links">
+            <li>
+              <a href="#">
+                <span><i class="ri-phone-fill"></i></span> +91 234 56788
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span><i class="ri-map-pin-2-fill"></i></span> 
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+
+      <div class="footer__bar">
+        Copyright © 2024 Web Design Mastery. All rights reserved.
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    {% load static %}
+  <script src="{% static 'main.js' %}"></script>
+  </body>
+</html>
