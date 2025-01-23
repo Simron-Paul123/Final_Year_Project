@@ -153,9 +153,9 @@ def extract_education(text, education_keywords):
 
 
 
-# Main code execution
-#pdf_path = "//workspaces//Final_Year_Project//SkillMingle//media//cv//Diya_Adhikary_CV.pdf"
-#text = extract_text_from_pdf(pdf_path)
+# Main code executionSkillMingle/media/cv/DiyaAdhikary_IBM_CV (1).pdf
+pdf_path = "//workspaces//Final_Year_Project//SkillMingle//media//cv//DiyaAdhikary_IBM_CV (1).pdf"
+text = extract_text_from_pdf(pdf_path)
 #name = extract_name(text)
 #phone = extract_mobile_number(text)
 #email = extract_email(text)
@@ -165,7 +165,7 @@ def extract_education(text, education_keywords):
 
 #job_id = 1  # Replace with the actual job ID
 #matching_skills = get_matching_skills(skills, job_id)
-#print(f"text extracted: {text}")
+print(f"text extracted: {text}")
 #print(f"Name: {name}")
 #print(f"Phone: {phone}")
 #print(f"Email: {email}")
