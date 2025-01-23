@@ -190,10 +190,10 @@
         </div>
       </div>
       <ul class="nav__links" id="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#Jobs">About</a></li>
-        <li><a href="#Applied Jobs">Jobs</a></li>
-        <li><a href="#Recommendation">Services</a></li>
+        <li><a href="{% url 'jobseeker' %}">Home</a></li>
+        <li><a href="{% url 'all_jobs' %}">Jobs</a></li>
+        <li><a href="{% url 'try' %}">Recommended jobs</a></li>
+        <li><a href="{% url 'user_dashboard' %}">Profile</a></li>
         <!--<li><a href="#Services">Client</a></li>-->
         {% if user.is_authenticated %}
           <li class="welcome-msg"><span>Welcome, {{ user.username }}</span></li>

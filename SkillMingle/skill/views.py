@@ -116,7 +116,26 @@ def all_jobs(request):
 def company(request):
     return render(request, 'company.html')
 
+def categorization(request):
+    try:
+        # Get the "Software Development" category
+        software_development_category = Category.objects.get(name__iexact="Software Development")
+        
+        # Filter jobs under this category
+        software_development_jobs = Job.objects.filter(category=software_development_category)
 
+        # Pass the filtered jobs to the template
+        context = {
+            'jobs': software_development_jobs
+        }
+    except Category.DoesNotExist:
+        # Handle case where the "Software Development" category does not exist
+        context = {
+            'jobs': [],
+            'error': 'No jobs found under the "Software Development" category.'
+        }
+
+    return render(request, 'categorization.html', context)
 @login_required(login_url='login')
 def user_dashboard(request):
     user = request.user  # Get the logged-in user
@@ -143,9 +162,11 @@ def user_dashboard(request):
 
             # Save the user profile
             user.save()
+            success_message = "Your profile has been updated successfully!"
+            return redirect('categorization')
 
             # Set success message
-            success_message = "Your profile has been updated successfully!"
+            
 
         except Exception as e:
             return render(request, 'user_dashboard.html', {

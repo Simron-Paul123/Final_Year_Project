@@ -5,9 +5,9 @@ from pdfminer.layout import LAParams
 from pdfminer.pdfpage import PDFPage
 from pdfminer.high_level import extract_text
 import io
-#import pandas as pd
+import pandas as pd
 import spacy
-#from spacy.matcher import Matcher
+from spacy.matcher import Matcher
 import re
 
 nlp = spacy.load('en_core_web_sm')
