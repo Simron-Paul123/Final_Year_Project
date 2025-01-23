@@ -190,7 +190,7 @@
         </div>
       </div>
       <ul class="nav__links" id="nav-links">
-        <li><a href="{% url 'jobseeker' %}">Home</a></li>
+        <li><a href="{% url 'job_seeker' %}">Home</a></li>
         <li><a href="{% url 'all_jobs' %}">Jobs</a></li>
         <li><a href="{% url 'user_dashboard' %}">Profile</a></li>
         {% if user.is_authenticated %}
@@ -224,10 +224,10 @@
     </header>
 
     
-    <div class="category-section">
+    <!--<div class="category-section">
       <p class="category-title">Predicted Category:</p>
       <button class="category-button">Software Developer</button>
-    </div>
+    </div> -->
     
       
     <section class="job-cards-container">

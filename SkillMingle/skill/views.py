@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
+from django.urls import reverse
 
 #import resume_parsing
 from .resume_parsing import extract_education, extract_email, extract_mobile_number, extract_name, extract_skills, extract_text_from_pdf
@@ -104,6 +105,8 @@ def LogoutPage(request):
 def job_seeker(request):
     jobs = Job.objects.all()  # Fetch all job entries from the Job model
     categories = Category.objects.all()  # Fetch all category entries from the Category model
+    jobseeker_url = reverse('jobseeker')
+    print(f"Jobseeker URL: {jobseeker_url}")
     return render(request, 'job_seeker.html', {'jobs': jobs, 'categories': categories})
 
 def all_jobs(request):
@@ -117,25 +120,10 @@ def company(request):
     return render(request, 'company.html')
 
 def categorization(request):
-    try:
-        # Get the "Software Development" category
-        software_development_category = Category.objects.get(name__iexact="Software Development")
-        
-        # Filter jobs under this category
-        software_development_jobs = Job.objects.filter(category=software_development_category)
-
-        # Pass the filtered jobs to the template
-        context = {
-            'jobs': software_development_jobs
-        }
-    except Category.DoesNotExist:
-        # Handle case where the "Software Development" category does not exist
-        context = {
-            'jobs': [],
-            'error': 'No jobs found under the "Software Development" category.'
-        }
-
-    return render(request, 'categorization.html', context)
+    jobs = Job.objects.all()
+    for job in jobs:
+        job.skills_list = job.skill.split(',')  # Add a skills_list attribute
+    return render(request, 'categorization.html', {'jobs': jobs})
 @login_required(login_url='login')
 def user_dashboard(request):
     user = request.user  # Get the logged-in user

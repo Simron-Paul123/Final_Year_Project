@@ -190,7 +190,7 @@
         </div>
       </div>
       <ul class="nav__links" id="nav-links">
-        <li><a href="{% url 'jobseeker' %}">Home</a></li>
+        <li><a href="{% url 'job_seeker' %}">Home</a></li>
         <li><a href="{% url 'all_jobs' %}">Jobs</a></li>
         <li><a href="{% url 'try' %}">Recommended jobs</a></li>
         <li><a href="{% url 'user_dashboard' %}">Profile</a></li>
@@ -233,62 +233,66 @@
     
       
     <section class="job-cards-container">
-        {% for job in jobs %}
-        <div class="job-card">
-            <div class="job-header">
-                <img src="{{ job.company_logo.url }}" alt="{{ job.company_name }}" />
-                <div>
-                    <p class="job-title">{{ job.title }}</p>
-                    <p class="job-company">{{ job.company_name }}</p>
-                    <p class="job-location">{{ job.location }} •  {{ job.employment_type }}</p>
-                </div>
-            </div>
-
-            <div class="skills">
-                {% for skill in job.skills_list %}
-                <div class="skill">{{ skill }}</div>
-                {% endfor %}
-            </div>
-
-            <div class="job-details">
-                <div>
-                    <i class="fas fa-briefcase"></i>
-                    <span>Salary: {{ job.salary|floatformat:2 }} LPA</span>
-                </div>
-
-                <div>
-                  <i class="fas fa-calendar-alt"></i>
-                  <span>Start date: {{ job.start_date }}</span>
-                </div>
-
-                <div>
-                  <i class="fas fa-clock"></i>
-                  <span>Experience: {{ job.experience }}</span>
-                </div>
-
-                <div>
-                    <i class="fas fa-users"></i>
-                    <span>Openings: {{ job.positions }} </span>
-                </div>
-                <div>
-                    <i class="fas fa-clock"></i>
-                    <span>Duration: {{ job.duration }}</span>
-                </div>
-            </div>
-            <div class="job-footer">
-              <a href="#"> {{ job.no_of_applicants }} applicants</a>
-                <a href="#">Apply by {{ job.apply_before }} • Posted {{ job.ddate_of_posting }}</a>
-                <div class="button-group">
-                    <button class="view-button">View Details</button>
-                    <button class="apply-button">Apply Now</button>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <p>No jobs available at the moment.</p>
-        {% endfor %}
-    </section>
-
+      {% if jobs %}
+          {% for job in jobs %}
+              {% if job.category.name == "Software Developer" %}
+              <div class="job-card">
+                  <div class="job-header">
+                      <img src="{{ job.company_logo.url }}" alt="{{ job.company_name }}" />
+                      <div>
+                          <p class="job-title">{{ job.title }}</p>
+                          <p class="job-company">{{ job.company_name }}</p>
+                          <p class="job-location">{{ job.location }} • {{ job.employment_type }}</p>
+                      </div>
+                  </div>
+  
+                  <div class="skills">
+                      {% for skill in job.skills_list %}
+                      <div class="skill">{{ skill }}</div>
+                      {% endfor %}
+                  </div>
+  
+                  <div class="job-details">
+                      <div>
+                          <i class="fas fa-briefcase"></i>
+                          <span>Salary: {{ job.salary|floatformat:2 }} LPA</span>
+                      </div>
+  
+                      <div>
+                          <i class="fas fa-calendar-alt"></i>
+                          <span>Start date: {{ job.start_date }}</span>
+                      </div>
+  
+                      <div>
+                          <i class="fas fa-clock"></i>
+                          <span>Experience: {{ job.experience }}</span>
+                      </div>
+  
+                      <div>
+                          <i class="fas fa-users"></i>
+                          <span>Openings: {{ job.positions }}</span>
+                      </div>
+                      <div>
+                          <i class="fas fa-clock"></i>
+                          <span>Duration: {{ job.duration }}</span>
+                      </div>
+                  </div>
+                  <div class="job-footer">
+                      <a href="#">{{ job.no_of_applicants }} applicants</a>
+                      <a href="#">Apply by {{ job.apply_before }} • Posted {{ job.date_of_posting }}</a>
+                      <div class="button-group">
+                          <button class="view-button">View Details</button>
+                          <button class="apply-button">Apply Now</button>
+                      </div>
+                  </div>
+              </div>
+              {% endif %}
+          {% endfor %}
+      {% else %}
+          <p>No jobs available at the moment.</p>
+      {% endif %}
+  </section>
+  
     
     
 
