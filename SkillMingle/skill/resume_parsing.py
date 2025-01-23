@@ -165,7 +165,7 @@ education = extract_education(text, education_keywords)
 
 #job_id = 1  # Replace with the actual job ID
 #matching_skills = get_matching_skills(skills, job_id)
-
+print(f"text extracted: {text}")
 print(f"Name: {name}")
 print(f"Phone: {phone}")
 print(f"Email: {email}")
