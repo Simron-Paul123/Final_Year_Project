@@ -1,12 +1,12 @@
-#from .models import Job
-#from pdfminer.converter import TextConverter
-#from pdfminer.pdfinterp import PDFPageInterpreter, PDFResourceManager
-#from pdfminer.layout import LAParams
-#from pdfminer.pdfpage import PDFPage
-#from pdfminer.high_level import extract_text
+from .models import Job
+from pdfminer.converter import TextConverter
+from pdfminer.pdfinterp import PDFPageInterpreter, PDFResourceManager
+from pdfminer.layout import LAParams
+from pdfminer.pdfpage import PDFPage
+from pdfminer.high_level import extract_text
 import io
 #import pandas as pd
-#import spacy
+import spacy
 #from spacy.matcher import Matcher
 import re
 
