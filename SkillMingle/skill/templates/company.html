@@ -40,8 +40,11 @@
       <ul class="nav__links" id="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#service">Services</a></li>
-        <li><a href="#Contact">Contact</a></li>
-        <li><button class="btn">Register</button></li>
+        {% if user.is_authenticated %}
+          <li class="welcome-msg"><span>Welcome, {{ user.username }}</span></li>
+        {% else %}
+          <li><a href="{% url 'register' %}" class="btn">Register</a></li>
+        {% endif %}
       </ul>
     </nav>
     <header class="section__container header__container" id="home">

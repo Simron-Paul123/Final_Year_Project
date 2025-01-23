@@ -83,7 +83,12 @@
         <li><a href="#categories">Categories</a></li>
         <li><a href="#service">Services</a></li>
         <li><a href="#job">Jobs</a></li>
-        <li><button class="btn">Register</button></li>
+        <li><a href="{% url 'user_dashboard' %}">Profile</a></li>
+        {% if user.is_authenticated %}
+          <li class="welcome-msg"><span>Welcome, {{ user.username }}</span></li>
+        {% else %}
+          <li><a href="{% url 'register' %}" class="btn">Register</a></li>
+        {% endif %}
       </ul>
     </nav>
     <header class="section__container header__container" id="home">

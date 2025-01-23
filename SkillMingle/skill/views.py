@@ -105,8 +105,8 @@ def LogoutPage(request):
 def job_seeker(request):
     jobs = Job.objects.all()  # Fetch all job entries from the Job model
     categories = Category.objects.all()  # Fetch all category entries from the Category model
-    jobseeker_url = reverse('jobseeker')
-    print(f"Jobseeker URL: {jobseeker_url}")
+    #jobseeker_url = reverse('jobseeker')
+    #print(f"Jobseeker URL: {jobseeker_url}")
     return render(request, 'job_seeker.html', {'jobs': jobs, 'categories': categories})
 
 def all_jobs(request):
